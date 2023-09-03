@@ -18,13 +18,13 @@ Before you begin, ensure you have met the following requirements:
 
 1. Clone the repository:
 
-   `bash
+   ```bash
    git clone https://github.com/jodymantap/tiga-sepuluh-dashboard.git
 
 2. Install the required packages:
-   `bash
+   ```bash
    npm install
 
 2. Run the app:
-   `bash
+   ```bash
    npm run dev
