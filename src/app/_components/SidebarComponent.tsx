@@ -5,7 +5,7 @@ import sidebarConfig from "../menu.config";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { usePathname } from "next/navigation";
 import { useSelector, useDispatch } from "react-redux";
-import { RootState, AppDispatch } from "../redux/store";
+import { RootState, AppDispatch } from "../_redux/store";
 
 export default function SidebarComponent() {
   const currentPathName = usePathname();

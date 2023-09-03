@@ -4,7 +4,7 @@ import SearchBar from "./SearchBar";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faBars } from "@fortawesome/free-solid-svg-icons";
 import { useDispatch } from "react-redux";
-import { AppDispatch } from "../redux/store";
+import { AppDispatch } from "../_redux/store";
 
 export default function HeaderComponent() {
   const dispatch = useDispatch<AppDispatch>();
@@ -25,7 +25,7 @@ export default function HeaderComponent() {
       <SearchBar />
       <FontAwesomeIcon
         onClick={showSidebar}
-        className="h-8 text-primary lg:hidden"
+        className="h-8 text-primary lg:hidden cursor-pointer"
         icon={faBars}
       />
     </div>
