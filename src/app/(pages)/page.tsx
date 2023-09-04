@@ -1,6 +1,8 @@
 import { PartialProductResponse } from "../_types/PartialProductResponse";
+import { Suspense } from "react";
 import TableComponent from "../_components/TableComponent";
 import Await from "./await";
+import Loading from "./loading";
 
 type extendedResponseType = {
   products: PartialProductResponse[];
@@ -37,17 +39,20 @@ export default async function Home({
         Product<span className="text-secondary">s</span>
       </h2>
 
-      <Await promise={promise}>
-        {(response) => (
-          <TableComponent
-            pathname="/"
-            headers={headers}
-            data={response.products}
-            skip={response.skip}
-            total={response.total}
-          />
-        )}
-      </Await>
+      <Suspense fallback={<Loading />}>
+        <Await promise={promise}>
+          {(response) => (
+            <TableComponent
+              pathname="/"
+              headers={headers}
+              data={response.products}
+              q=""
+              skip={response.skip}
+              total={response.total}
+            />
+          )}
+        </Await>
+      </Suspense>
     </main>
   );
 }

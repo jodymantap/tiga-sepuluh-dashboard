@@ -5,15 +5,17 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faBars } from "@fortawesome/free-solid-svg-icons";
 import { useDispatch } from "react-redux";
 import { AppDispatch } from "../_redux/store";
+import { usePathname } from "next/navigation";
 
 export default function HeaderComponent() {
   const dispatch = useDispatch<AppDispatch>();
+  const currentPathName = usePathname();
 
   const showSidebar = () => {
     dispatch({ type: "TOGGLE_SIDEBAR", payload: true });
   };
   return (
-    <div className="flex justify-between lg:justify-end items-center bg-white border-b p-4">
+    <div className="flex justify-between lg:justify-end items-center bg-white border-b p-4 h-[72px]">
       <div className="flex lg:hidden">
         <h1 className="text-secondary font-bold bg-primary py-2 h-10 pl-2 pr-1 rounded-l-xl">
           3
@@ -22,7 +24,7 @@ export default function HeaderComponent() {
           10
         </h1>
       </div>
-      <SearchBar />
+      {currentPathName === "/" || "/search" ? <SearchBar /> : null}
       <FontAwesomeIcon
         onClick={showSidebar}
         className="h-8 text-primary lg:hidden cursor-pointer"

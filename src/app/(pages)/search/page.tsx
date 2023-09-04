@@ -1,17 +1,22 @@
-import { PartialCartResponse } from "@/app/_types/PartialCartResponse";
+import { PartialProductResponse } from "../../_types/PartialProductResponse";
 import { Suspense } from "react";
 import TableComponent from "../../_components/TableComponent";
 import Await from "../await";
-import Loading from "./loading";
+import Loading from "../loading";
 
 type extendedResponseType = {
-  carts: PartialCartResponse[];
+  products: PartialProductResponse[];
   skip: number;
   total: number;
 };
 
-async function getCarts(skip: number = 0): Promise<extendedResponseType> {
-  const res = await fetch(`https://dummyjson.com/carts?limit=5&skip=${skip}`);
+async function getProducts(
+  q: string = "",
+  skip: number = 0
+): Promise<extendedResponseType> {
+  const res = await fetch(
+    `https://dummyjson.com/products/search?q=${q}&limit=5&skip=${skip}`
+  );
 
   if (!res.ok) {
     //error
@@ -21,36 +26,37 @@ async function getCarts(skip: number = 0): Promise<extendedResponseType> {
   return response;
 }
 
-export default function Carts({
+export default async function Home({
   searchParams,
 }: {
   searchParams?: { [key: string]: string | string[] | undefined };
 }) {
-  const headers = ["id", "userId", "totalProducts", "totalQuantity", "total"];
+  const headers = ["title", "brand", "price", "stock", "category"];
   const skip =
     typeof searchParams?.skip === "string" ? Number(searchParams.skip) : 0;
-  const promise = getCarts(skip);
+  const q = typeof searchParams?.q === "string" ? String(searchParams.q) : "";
+  const promise = getProducts(q, skip);
 
   return (
-    <div>
+    <main>
       <h2 className="text-primary font-semibold mb-4">
-        Cart<span className="text-secondary">s</span>
+        Product<span className="text-secondary">s</span>
       </h2>
 
       <Suspense fallback={<Loading />}>
         <Await promise={promise}>
           {(response) => (
             <TableComponent
-              pathname="/carts"
+              pathname="/search"
               headers={headers}
-              data={response.carts}
-              q=""
+              data={response.products}
+              q={q}
               skip={response.skip}
               total={response.total}
             />
           )}
         </Await>
       </Suspense>
-    </div>
+    </main>
   );
 }

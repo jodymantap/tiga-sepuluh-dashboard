@@ -7,11 +7,13 @@ import Link from "next/link";
 
 interface PaginationComponentProps {
   skip: number;
+  q: string;
   total: number;
   pathname: string;
 }
 
 export default function PaginationComponent({
+  q,
   skip,
   total,
   pathname,
@@ -24,6 +26,7 @@ export default function PaginationComponent({
           pathname: pathname ? pathname : "/",
           query: {
             skip: skip > 0 ? skip - 5 : 0,
+            ...(pathname === "/search" ? { q } : {}),
           },
         }}
       >
@@ -35,12 +38,15 @@ export default function PaginationComponent({
           <FontAwesomeIcon className="h-4 text-primary" icon={faChevronLeft} />
         </div>
       </Link>
-      <h4 className="text-primary font-medium text-sm">Page {currentPage}</h4>
+      <h4 className="text-primary font-medium text-sm">
+        Page {currentPage} of {Math.ceil(total / 5)}
+      </h4>
       <Link
         href={{
           pathname: pathname ? pathname : "/",
           query: {
             skip: skip + 5 < total ? skip + 5 : skip,
+            ...(pathname === "/search" ? { q } : {}),
           },
         }}
       >

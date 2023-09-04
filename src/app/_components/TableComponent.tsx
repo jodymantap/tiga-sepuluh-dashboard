@@ -3,6 +3,7 @@ import PaginationComponent from "./PaginationComponent";
 interface TableComponentProps<T> {
   headers: string[];
   data: T[];
+  q: string;
   skip: number;
   total: number;
   pathname: string;
@@ -11,6 +12,7 @@ interface TableComponentProps<T> {
 export default function TableComponent<T>({
   headers,
   data,
+  q,
   skip,
   total,
   pathname,
@@ -67,7 +69,12 @@ export default function TableComponent<T>({
           </tbody>
         </table>
       </div>
-      <PaginationComponent total={total} skip={skip} pathname={pathname} />
+      <PaginationComponent
+        q={q}
+        total={total}
+        skip={skip}
+        pathname={pathname}
+      />
     </>
   );
 }
