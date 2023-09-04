@@ -40,6 +40,7 @@ export default async function Home({
       <Await promise={promise}>
         {(response) => (
           <TableComponent
+            pathname="/"
             headers={headers}
             data={response.products}
             skip={response.skip}

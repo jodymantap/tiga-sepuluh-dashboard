@@ -5,6 +5,7 @@ interface TableComponentProps<T> {
   data: T[];
   skip: number;
   total: number;
+  pathname: string;
 }
 
 export default function TableComponent<T>({
@@ -12,6 +13,7 @@ export default function TableComponent<T>({
   data,
   skip,
   total,
+  pathname,
 }: TableComponentProps<T>) {
   function renderTableCell(item: T, header: string): React.ReactNode {
     if (typeof item === "object" && item !== null) {
@@ -59,7 +61,7 @@ export default function TableComponent<T>({
           </tbody>
         </table>
       </div>
-      <PaginationComponent total={total} skip={skip} />
+      <PaginationComponent total={total} skip={skip} pathname={pathname} />
     </>
   );
 }

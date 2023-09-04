@@ -8,9 +8,14 @@ import Link from "next/link";
 interface PaginationComponentProps {
   skip: number;
   total: number;
+  pathname: string;
 }
 
-export default function ({ skip, total }: PaginationComponentProps) {
+export default function PaginationComponent({
+  skip,
+  total,
+  pathname,
+}: PaginationComponentProps) {
   const currentPage = skip / 5 + 1;
   return (
     <div className="flex justify-between items-center mt-2">
@@ -33,7 +38,7 @@ export default function ({ skip, total }: PaginationComponentProps) {
       <h4 className="text-primary font-medium text-sm">Page {currentPage}</h4>
       <Link
         href={{
-          pathname: "/",
+          pathname: pathname ? pathname : "/",
           query: {
             skip: skip + 5 < total ? skip + 5 : skip,
           },
