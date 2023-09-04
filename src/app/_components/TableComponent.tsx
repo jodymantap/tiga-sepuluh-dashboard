@@ -23,6 +23,12 @@ export default function TableComponent<T>({
     }
   }
 
+  function formatHeader(inputString: string) {
+    const words = inputString.split(/(?=[A-Z])/);
+    const formattedString = words.join(" ");
+    return formattedString;
+  }
+
   return (
     <>
       <div className="overflow-x-auto">
@@ -35,7 +41,7 @@ export default function TableComponent<T>({
                       key={item}
                       className="px-6 py-3 whitespace-nowrap bg-gray-50 text-left text-xs leading-4 font-semibold text-primary uppercase tracking-wider"
                     >
-                      {item}
+                      {formatHeader(item)}
                     </th>
                   ))
                 : null}

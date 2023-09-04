@@ -18,10 +18,10 @@ export default function PaginationComponent({
 }: PaginationComponentProps) {
   const currentPage = skip / 5 + 1;
   return (
-    <div className="flex justify-between items-center mt-2">
+    <div className="flex justify-between items-center mt-6">
       <Link
         href={{
-          pathname: "/",
+          pathname: pathname ? pathname : "/",
           query: {
             skip: skip > 0 ? skip - 5 : 0,
           },
