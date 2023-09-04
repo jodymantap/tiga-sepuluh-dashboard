@@ -53,6 +53,7 @@ export default async function Home({
               q={q}
               skip={response.skip}
               total={response.total}
+              usePagination={true}
             />
           )}
         </Await>
