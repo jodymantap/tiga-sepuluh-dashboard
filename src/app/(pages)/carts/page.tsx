@@ -30,6 +30,10 @@ export default function Carts({
   const skip =
     typeof searchParams?.skip === "string" ? Number(searchParams.skip) : 0;
   const promise = getCarts(skip);
+  const actionField = {
+    label: "view cart",
+    child: <button className="btn-primary">View</button>,
+  };
 
   return (
     <div>
@@ -47,6 +51,8 @@ export default function Carts({
               q=""
               skip={response.skip}
               total={response.total}
+              actionField={actionField}
+              usePagination={true}
             />
           )}
         </Await>

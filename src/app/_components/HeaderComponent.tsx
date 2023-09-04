@@ -24,7 +24,9 @@ export default function HeaderComponent() {
           10
         </h1>
       </div>
-      {currentPathName === "/" || "/search" ? <SearchBar /> : null}
+      {currentPathName === "/" || currentPathName === "/search" ? (
+        <SearchBar />
+      ) : null}
       <FontAwesomeIcon
         onClick={showSidebar}
         className="h-8 text-primary lg:hidden cursor-pointer"

@@ -1,12 +1,19 @@
+import Link from "next/link";
 import PaginationComponent from "./PaginationComponent";
 
+type actionFieldType = {
+  label?: string;
+  child: React.ReactNode;
+};
 interface TableComponentProps<T> {
   headers: string[];
   data: T[];
-  q: string;
-  skip: number;
-  total: number;
+  q?: string;
+  skip?: number;
+  total?: number;
   pathname: string;
+  actionField?: actionFieldType;
+  usePagination?: boolean;
 }
 
 export default function TableComponent<T>({
@@ -16,6 +23,8 @@ export default function TableComponent<T>({
   skip,
   total,
   pathname,
+  actionField,
+  usePagination,
 }: TableComponentProps<T>) {
   function renderTableCell(item: T, header: string): React.ReactNode {
     if (typeof item === "object" && item !== null) {
@@ -47,6 +56,11 @@ export default function TableComponent<T>({
                     </th>
                   ))
                 : null}
+              {actionField ? (
+                <th className="px-6 py-3 text-center whitespace-nowrap bg-gray-50 text-xs leading-4 font-semibold text-primary uppercase tracking-wider">
+                  {actionField?.label ? actionField?.label : "action"}
+                </th>
+              ) : null}
             </tr>
           </thead>
           <tbody>
@@ -63,18 +77,33 @@ export default function TableComponent<T>({
                           </td>
                         ))
                       : null}
+                    {actionField?.child ? (
+                      <td className="text-center">
+                        <Link
+                          href={{
+                            pathname: `/carts/${
+                              (item as Record<string, unknown>)?.id
+                            }`,
+                          }}
+                        >
+                          {actionField?.child}
+                        </Link>
+                      </td>
+                    ) : null}
                   </tr>
                 ))
               : null}
           </tbody>
         </table>
       </div>
-      <PaginationComponent
-        q={q}
-        total={total}
-        skip={skip}
-        pathname={pathname}
-      />
+      {usePagination ? (
+        <PaginationComponent
+          q={q as string}
+          total={total as number}
+          skip={skip as number}
+          pathname={pathname}
+        />
+      ) : null}
     </>
   );
 }

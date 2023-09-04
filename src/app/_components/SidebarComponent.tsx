@@ -36,7 +36,12 @@ export default function SidebarComponent() {
             ? sidebarConfig.map((item) => (
                 <Link
                   className={`nav-link ${
-                    currentPathName == item.link ? "nav-link--active" : ""
+                    currentPathName === item.link ||
+                    (currentPathName === "/"
+                      ? item.link === "/"
+                      : currentPathName.startsWith(`${item.link}/`))
+                      ? "nav-link--active"
+                      : ""
                   }`}
                   href={item.link}
                   key={item.id}
@@ -44,7 +49,10 @@ export default function SidebarComponent() {
                   <div className="flex gap-2">
                     <FontAwesomeIcon
                       className={`h-5 w-5 text-accent ${
-                        currentPathName == item.link
+                        currentPathName === item.link ||
+                        (currentPathName === "/"
+                          ? item.link === "/"
+                          : currentPathName.startsWith(`${item.link}/`))
                           ? "nav-link__icon--active"
                           : ""
                       }`}
