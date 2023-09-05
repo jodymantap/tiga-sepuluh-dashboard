@@ -9,14 +9,17 @@ export default function SearchBar() {
   const [searchQuery, setSearchQuery] = useState("");
   const category = searchParams.get("category");
   const brand = searchParams.get("brand");
+  const price = searchParams.get("price");
   const q = searchParams.get("q");
 
   const onSearch = (event: React.FormEvent) => {
     event.preventDefault();
     router.push(
-      `/search?q=${searchQuery}${category || brand ? "" : "&limit=5"}&skip=0${
-        category ? "&category=" + category : ""
-      }${brand ? "&brand=" + brand : ""}`
+      `/search?q=${searchQuery}${
+        category || brand || price ? "" : "&limit=5"
+      }&skip=0${category ? "&category=" + category : ""}${
+        brand ? "&brand=" + brand : ""
+      }${price ? "&price=" + price : ""}`
     );
   };
 

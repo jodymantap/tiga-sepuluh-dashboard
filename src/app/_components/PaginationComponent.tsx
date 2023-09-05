@@ -8,8 +8,7 @@ import Link from "next/link";
 type filterProps = {
   category?: string;
   brand?: string;
-  minPrice?: number;
-  maxPrice?: number;
+  price?: string;
 };
 
 interface PaginationComponentProps {
@@ -37,6 +36,7 @@ export default function PaginationComponent({
             skip: skip > 0 ? skip - 5 : 0,
             ...(filter?.category ? { category: filter.category } : {}),
             ...(filter?.brand ? { brand: filter.brand } : {}),
+            ...(filter?.price ? { price: filter.price } : {}),
             ...(pathname === "/search" ? { q } : {}),
           },
         }}
@@ -50,15 +50,16 @@ export default function PaginationComponent({
         </div>
       </Link>
       <h4 className="text-primary font-medium text-sm">
-        Page {currentPage} of {Math.ceil(total / 5)}
+        Page {currentPage} of {filter?.price ? 1 : Math.ceil(total / 5)}
       </h4>
       <Link
         href={{
           pathname: pathname ? pathname : "/",
           query: {
-            skip: skip + 5 < total ? skip + 5 : skip,
+            skip: skip + 5 < total && !filter?.price ? skip + 5 : skip,
             ...(filter?.category ? { category: filter.category } : {}),
             ...(filter?.brand ? { brand: filter.brand } : {}),
+            ...(filter?.price ? { price: filter.price } : {}),
             ...(pathname === "/search" ? { q } : {}),
           },
         }}

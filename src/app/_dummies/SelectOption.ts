@@ -41,4 +41,15 @@ const productBrands = [
   { value: "Fair & Clear", text: "Fair & Clear" },
 ];
 
-export { productCategories, productBrands };
+const productPriceRange = [
+  { value: "0-20", text: "< $20" },
+  { value: "20-50", text: "$20 < $50" },
+  { value: "50-100", text: "$50 < $100" },
+  { value: "100-200", text: "$100 < $200" },
+  { value: "200-300", text: "$200 < $300" },
+  { value: "300-500", text: "$300 < $500" },
+  { value: "500-1000", text: "$500 < $1000" },
+  { value: "1000-5000", text: "> $1000" },
+];
+
+export { productCategories, productBrands, productPriceRange };

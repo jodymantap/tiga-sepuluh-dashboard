@@ -9,14 +9,14 @@ type actionFieldType = {
 type filterProps = {
   category?: string;
   brand?: string;
-  minPrice?: number;
-  maxPrice?: number;
+  price?: string;
 };
 interface TableComponentProps<T> {
   headers: string[];
   data: T[];
   q?: string;
   skip?: number;
+  limit?: number;
   filter?: filterProps;
   total?: number;
   pathname: string;

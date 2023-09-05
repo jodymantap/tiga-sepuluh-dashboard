@@ -15,7 +15,8 @@ async function getProducts(
   skip: number = 0,
   limit: number,
   category: string,
-  brand: string
+  brand: string,
+  price: string
 ): Promise<extendedResponseType> {
   const res = await fetch(
     `https://dummyjson.com/products?limit=${limit}&skip=${skip}`
@@ -31,7 +32,8 @@ async function getProducts(
     const filteredProducts = await filterProducts(
       response.products,
       category,
-      brand
+      brand,
+      price
     );
 
     response.products = filteredProducts;
@@ -46,7 +48,8 @@ async function getProducts(
 export async function filterProducts(
   products: PartialProductResponse[],
   category: string,
-  brand: string
+  brand: string,
+  price: string
 ) {
   let filteredProducts = products;
 
@@ -62,6 +65,15 @@ export async function filterProducts(
     filteredProducts = filteredProducts.filter(
       (product: PartialProductResponse) => {
         return product.brand == brand;
+      }
+    );
+  }
+
+  if (price) {
+    filteredProducts = filteredProducts.filter(
+      (product: PartialProductResponse) => {
+        const [min, max] = price.split("-").map(Number);
+        return product.price > min && product.price < max;
       }
     );
   }
@@ -83,8 +95,10 @@ export default async function Home({
       : "";
   const brand =
     typeof searchParams?.brand === "string" ? String(searchParams.brand) : "";
+  const price =
+    typeof searchParams?.price === "string" ? String(searchParams.price) : "";
   const limit = category ? 100 : 5;
-  const promise = getProducts(skip, limit, category, brand);
+  const promise = getProducts(skip, limit, category, brand, price);
 
   return (
     <main>
