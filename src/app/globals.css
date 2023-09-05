@@ -12,7 +12,7 @@
 }
 
 .content {
-  @apply p-8;
+  @apply p-8 h-[calc(100vh-72px)] overflow-auto;
 }
 
 .nav {

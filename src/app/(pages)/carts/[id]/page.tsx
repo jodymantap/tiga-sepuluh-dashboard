@@ -5,6 +5,7 @@ import TableComponent from "../../../_components/TableComponent";
 import Await from "../../await";
 import Loading from "../loading";
 import CartInfo from "@/app/_components/CartInfo";
+import BarChart from "@/app/_components/BarChart";
 
 async function getCarts(id: string): Promise<PartialCartResponse> {
   const res = await fetch(`https://dummyjson.com/carts/${id}`);

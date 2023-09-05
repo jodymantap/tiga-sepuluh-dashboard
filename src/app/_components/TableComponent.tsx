@@ -55,7 +55,7 @@ export default function TableComponent<T>({
         <table className="min-w-full divide-y divide-secondary">
           <thead>
             <tr>
-              {headers.length
+              {headers?.length
                 ? headers.map((item) => (
                     <th
                       key={item}
@@ -73,10 +73,10 @@ export default function TableComponent<T>({
             </tr>
           </thead>
           <tbody>
-            {data.length
+            {data?.length
               ? data.map((item, index) => (
                   <tr key={index}>
-                    {headers.length
+                    {headers?.length
                       ? headers.map((header) => (
                           <td
                             key={header}

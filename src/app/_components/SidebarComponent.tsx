@@ -32,7 +32,7 @@ export default function SidebarComponent() {
           </h1>
         </div>
         <div className="nav">
-          {sidebarConfig.length
+          {sidebarConfig?.length
             ? sidebarConfig.map((item) => (
                 <Link
                   className={`nav-link ${

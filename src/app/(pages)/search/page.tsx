@@ -5,6 +5,7 @@ import TableComponent from "../../_components/TableComponent";
 import Await from "../await";
 import Loading from "../loading";
 import FilterGroup from "@/app/_components/FilterGroup";
+import BarChart from "@/app/_components/BarChart";
 
 type extendedResponseType = {
   products: PartialProductResponse[];
@@ -91,6 +92,12 @@ export default async function Home({
               usePagination={true}
             />
           )}
+        </Await>
+      </Suspense>
+
+      <Suspense fallback={<Loading />}>
+        <Await promise={promise}>
+          {(response) => <BarChart products={response.products} />}
         </Await>
       </Suspense>
     </main>
