@@ -7,22 +7,36 @@ import { ChangeEvent, useEffect, useState } from "react";
 export default function FilterGroup() {
   const router = useRouter();
   const searchParams = useSearchParams();
-  const [categoryQuery, setcategoryQuery] = useState("");
+  const [categoryQuery, setCategoryQuery] = useState("");
+  const [brandQuery, setBrandQuery] = useState("");
   const category = searchParams.get("category");
+  const brand = searchParams.get("brand");
   const q = searchParams.get("q");
 
   const onCategoryFilter = (event: ChangeEvent<HTMLSelectElement>) => {
-    setcategoryQuery(event.target.value);
+    setCategoryQuery(event.target.value);
     router.push(
-      `/search?&skip=0&category=${event.target.value}&q=${q ? q : ""}`
+      `/search?&skip=0&category=${event.target.value}${
+        brand ? "&brand=" + brand : ""
+      }&q=${q ? q : ""}`
+    );
+  };
+
+  const onBrandFilter = (event: ChangeEvent<HTMLSelectElement>) => {
+    setBrandQuery(event.target.value);
+    router.push(
+      `/search?&skip=0${category ? "&category=" + category : ""}&brand=${
+        event.target.value
+      }&q=${q ? q : ""}`
     );
   };
 
   useEffect(() => {
-    setcategoryQuery(category ? (category as string) : "");
+    setCategoryQuery(category ? (category as string) : "");
+    setBrandQuery(brand ? (brand as string) : "");
   }, [q]);
   return (
-    <div className="flex gap-x-8">
+    <div className="flex flex-wrap gap-x-8 gap-y-2">
       <select
         value={categoryQuery}
         onChange={onCategoryFilter}
@@ -39,6 +53,8 @@ export default function FilterGroup() {
       </select>
 
       <select
+        value={brandQuery}
+        onChange={onBrandFilter}
         className="border border-primary rounded-lg bg-transparent p-2 text-primary"
         name="category"
         id="category"

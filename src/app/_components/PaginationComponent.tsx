@@ -36,6 +36,7 @@ export default function PaginationComponent({
           query: {
             skip: skip > 0 ? skip - 5 : 0,
             ...(filter?.category ? { category: filter.category } : {}),
+            ...(filter?.brand ? { brand: filter.brand } : {}),
             ...(pathname === "/search" ? { q } : {}),
           },
         }}
@@ -57,6 +58,7 @@ export default function PaginationComponent({
           query: {
             skip: skip + 5 < total ? skip + 5 : skip,
             ...(filter?.category ? { category: filter.category } : {}),
+            ...(filter?.brand ? { brand: filter.brand } : {}),
             ...(pathname === "/search" ? { q } : {}),
           },
         }}

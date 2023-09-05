@@ -14,7 +14,8 @@ type extendedResponseType = {
 async function getProducts(
   skip: number = 0,
   limit: number,
-  category: string
+  category: string,
+  brand: string
 ): Promise<extendedResponseType> {
   const res = await fetch(
     `https://dummyjson.com/products?limit=${limit}&skip=${skip}`
@@ -27,7 +28,11 @@ async function getProducts(
   const response = await res.json();
 
   if (response) {
-    const filteredProducts = await filterProducts(response.products, category);
+    const filteredProducts = await filterProducts(
+      response.products,
+      category,
+      brand
+    );
 
     response.products = filteredProducts;
 
@@ -40,14 +45,25 @@ async function getProducts(
 
 export async function filterProducts(
   products: PartialProductResponse[],
-  category: string
+  category: string,
+  brand: string
 ) {
   let filteredProducts = products;
 
   if (category) {
-    filteredProducts = products.filter((product: PartialProductResponse) => {
-      return product.category == category;
-    });
+    filteredProducts = filteredProducts.filter(
+      (product: PartialProductResponse) => {
+        return product.category == category;
+      }
+    );
+  }
+
+  if (brand) {
+    filteredProducts = filteredProducts.filter(
+      (product: PartialProductResponse) => {
+        return product.brand == brand;
+      }
+    );
   }
 
   return filteredProducts;
@@ -65,8 +81,10 @@ export default async function Home({
     typeof searchParams?.category === "string"
       ? String(searchParams.category)
       : "";
+  const brand =
+    typeof searchParams?.brand === "string" ? String(searchParams.brand) : "";
   const limit = category ? 100 : 5;
-  const promise = getProducts(skip, limit, category);
+  const promise = getProducts(skip, limit, category, brand);
 
   return (
     <main>

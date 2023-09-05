@@ -16,6 +16,7 @@ async function getProducts(
   q: string = "",
   skip: number = 0,
   category: string,
+  brand: string,
   limit: number
 ): Promise<extendedResponseType> {
   const res = await fetch(
@@ -29,11 +30,15 @@ async function getProducts(
   const response = await res.json();
 
   if (response) {
-    const filteredProducts = await filterProducts(response.products, category);
+    const filteredProducts = await filterProducts(
+      response.products,
+      category,
+      brand
+    );
 
     response.products = filteredProducts;
 
-    if (category) {
+    if (category || brand) {
       response.total = filteredProducts.length;
     }
   }
@@ -53,8 +58,10 @@ export default async function Home({
     typeof searchParams?.category === "string"
       ? String(searchParams.category)
       : "";
-  const limit = category ? 100 : 5;
-  const promise = getProducts(q, skip, category, limit);
+  const brand =
+    typeof searchParams?.brand === "string" ? String(searchParams.brand) : "";
+  const limit = category || brand ? 100 : 5;
+  const promise = getProducts(q, skip, category, brand, limit);
 
   return (
     <main>
@@ -75,7 +82,7 @@ export default async function Home({
               data={response.products}
               q={q}
               skip={response.skip}
-              filter={{ category }}
+              filter={{ category, brand }}
               total={response.total}
               usePagination={true}
             />
