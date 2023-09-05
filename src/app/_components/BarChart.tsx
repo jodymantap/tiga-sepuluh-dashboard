@@ -8,7 +8,7 @@ export default function BarChart({
   return (
     <div className="bg-white p-4 mt-8 border rounded-lg border-secondary">
       <div className="mb-4 text-primary font-semibold underline">
-        Product's Stock
+        Product&apos;s Stock
       </div>
       {products?.length
         ? products.map((product) => (
