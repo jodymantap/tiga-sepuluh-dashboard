@@ -5,6 +5,7 @@ Tiga Sepuluh Dashboard is an admin dashboard application developed in Next.js fo
 ## Table of Contents
 
 - [Getting Started](#getting-started)
+- [Features](#features)
 ## Getting Started
 
 ### Prerequisites
@@ -25,6 +26,17 @@ Before you begin, ensure you have met the following requirements:
    ```bash
    npm install
 
-2. Run the app:
+3. Run the app:
    ```bash
    npm run dev
+
+## Features
+1. Responsive design
+2. Search by product's name
+3. Filter by product's category, brand and price range
+4. Using query params to keep user's search and filters
+5. Barchart to see product's stock
+6. Cart's Details
+7. Paginations
+
+
