@@ -1,8 +1,10 @@
 import { PartialProductResponse } from "../../_types/PartialProductResponse";
 import { Suspense } from "react";
+import { filterProducts } from "../page";
 import TableComponent from "../../_components/TableComponent";
 import Await from "../await";
 import Loading from "../loading";
+import FilterGroup from "@/app/_components/FilterGroup";
 
 type extendedResponseType = {
   products: PartialProductResponse[];
@@ -12,10 +14,12 @@ type extendedResponseType = {
 
 async function getProducts(
   q: string = "",
-  skip: number = 0
+  skip: number = 0,
+  category: string,
+  limit: number
 ): Promise<extendedResponseType> {
   const res = await fetch(
-    `https://dummyjson.com/products/search?q=${q}&limit=5&skip=${skip}`
+    `https://dummyjson.com/products/search?q=${q}&limit=${limit}&skip=${skip}`
   );
 
   if (!res.ok) {
@@ -23,6 +27,16 @@ async function getProducts(
   }
 
   const response = await res.json();
+
+  if (response) {
+    const filteredProducts = await filterProducts(response.products, category);
+
+    response.products = filteredProducts;
+
+    if (category) {
+      response.total = filteredProducts.length;
+    }
+  }
   return response;
 }
 
@@ -35,13 +49,22 @@ export default async function Home({
   const skip =
     typeof searchParams?.skip === "string" ? Number(searchParams.skip) : 0;
   const q = typeof searchParams?.q === "string" ? String(searchParams.q) : "";
-  const promise = getProducts(q, skip);
+  const category =
+    typeof searchParams?.category === "string"
+      ? String(searchParams.category)
+      : "";
+  const limit = category ? 100 : 5;
+  const promise = getProducts(q, skip, category, limit);
 
   return (
     <main>
       <h2 className="text-primary font-semibold mb-4">
         Product<span className="text-secondary">s</span>
       </h2>
+
+      <div className="flex justify-end mb-2">
+        <FilterGroup />
+      </div>
 
       <Suspense fallback={<Loading />}>
         <Await promise={promise}>
@@ -52,6 +75,7 @@ export default async function Home({
               data={response.products}
               q={q}
               skip={response.skip}
+              filter={{ category }}
               total={response.total}
               usePagination={true}
             />

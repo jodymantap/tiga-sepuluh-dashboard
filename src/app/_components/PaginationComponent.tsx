@@ -5,16 +5,25 @@ import {
 } from "@fortawesome/free-solid-svg-icons";
 import Link from "next/link";
 
+type filterProps = {
+  category?: string;
+  brand?: string;
+  minPrice?: number;
+  maxPrice?: number;
+};
+
 interface PaginationComponentProps {
   skip: number;
   q: string;
   total: number;
   pathname: string;
+  filter?: filterProps;
 }
 
 export default function PaginationComponent({
   q,
   skip,
+  filter,
   total,
   pathname,
 }: PaginationComponentProps) {
@@ -26,6 +35,7 @@ export default function PaginationComponent({
           pathname: pathname ? pathname : "/",
           query: {
             skip: skip > 0 ? skip - 5 : 0,
+            ...(filter?.category ? { category: filter.category } : {}),
             ...(pathname === "/search" ? { q } : {}),
           },
         }}
@@ -46,6 +56,7 @@ export default function PaginationComponent({
           pathname: pathname ? pathname : "/",
           query: {
             skip: skip + 5 < total ? skip + 5 : skip,
+            ...(filter?.category ? { category: filter.category } : {}),
             ...(pathname === "/search" ? { q } : {}),
           },
         }}

@@ -1,19 +1,31 @@
 "use client";
 
-import { useRouter } from "next/navigation";
-import { useState } from "react";
+import { useRouter, useSearchParams } from "next/navigation";
+import { useEffect, useState } from "react";
 
 export default function SearchBar() {
   const router = useRouter();
+  const searchParams = useSearchParams();
   const [searchQuery, setSearchQuery] = useState("");
+  const category = searchParams.get("category");
+  const q = searchParams.get("q");
 
   const onSearch = (event: React.FormEvent) => {
     event.preventDefault();
-    router.push(`/search?q=${searchQuery}&limit=5&skip=0`);
+    router.push(
+      `/search?q=${searchQuery}${category ? "" : "&limit=5"}&skip=0${
+        category ? "&category=" + category : ""
+      }`
+    );
   };
+
   const onInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setSearchQuery(event.target.value);
   };
+
+  useEffect(() => {
+    setSearchQuery(q ? (q as string) : "");
+  }, [q]);
 
   return (
     <>
@@ -23,6 +35,7 @@ export default function SearchBar() {
           type="search"
           placeholder="Search product"
           onChange={onInputChange}
+          value={searchQuery}
         />
         <button className="btn-primary hidden md:inline">Search</button>
       </form>

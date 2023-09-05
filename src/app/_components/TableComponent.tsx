@@ -5,11 +5,19 @@ type actionFieldType = {
   label?: string;
   child: React.ReactNode;
 };
+
+type filterProps = {
+  category?: string;
+  brand?: string;
+  minPrice?: number;
+  maxPrice?: number;
+};
 interface TableComponentProps<T> {
   headers: string[];
   data: T[];
   q?: string;
   skip?: number;
+  filter?: filterProps;
   total?: number;
   pathname: string;
   actionField?: actionFieldType;
@@ -21,6 +29,7 @@ export default function TableComponent<T>({
   data,
   q,
   skip,
+  filter,
   total,
   pathname,
   actionField,
@@ -102,6 +111,7 @@ export default function TableComponent<T>({
           total={total as number}
           skip={skip as number}
           pathname={pathname}
+          filter={filter}
         />
       ) : null}
     </>
